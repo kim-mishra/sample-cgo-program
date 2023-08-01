@@ -28,9 +28,12 @@ typedef struct number_generator_response {
     int num;
 } number_generator_response;
 
-extern int number_generator_init(number_generator **d, //OUT
+extern int number_generator_init(number_generator **ppNG, //OUT
                                  int min,
                                  int max
+);
+
+extern int number_generator_terminate(number_generator **ppNG  // OUT
 );
 
 extern int get_random_number(number_generator *n, //

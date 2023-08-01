@@ -31,6 +31,20 @@ extern int number_generator_init(number_generator **ppNG,
     return NUMBER_GENERATOR_SUCCESS;
 };
 
+extern int number_generator_terminate(number_generator **ppNG) {
+    if (ppNG == nullptr) {
+        return NUMBER_GENERATOR_INVALID;
+    }
+
+    if (*ppNG == nullptr) {
+        return NUMBER_GENERATOR_INVALID;
+    }
+
+    free(*ppNG);
+    *ppNG = nullptr;
+    return NUMBER_GENERATOR_SUCCESS;
+};
+
 extern int get_random_number(number_generator *n, //
                              number_generator_response *response // OUT
 ) {
@@ -51,9 +65,6 @@ extern int get_random_number(number_generator *n, //
     }
     return NUMBER_GENERATOR_SUCCESS;
 };
-
-
-
 
 // Date constructor
 NumberGenerator::NumberGenerator(int minVal, int maxVal)

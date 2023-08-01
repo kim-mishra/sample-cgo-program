@@ -37,6 +37,13 @@ func getRandomNumber(min int, max int) (int, error) {
 
 	// get useful information from outParam and cast to go types
 	num := int(resp.num)
+
+	// free number generator struct
+	status = C.number_generator_terminate(pNumGen)
+	if status != C.NUMBER_GENERATOR_SUCCESS {
+		return 0, toError(status)
+	}
+
 	return num, nil
 
 }
