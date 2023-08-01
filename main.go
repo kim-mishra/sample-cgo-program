@@ -39,7 +39,7 @@ func getRandomNumber(min int, max int) (int, error) {
 	num := int(resp.num)
 
 	// free number generator struct
-	status = C.number_generator_terminate(pNumGen)
+	status = C.number_generator_terminate(&pNumGen)
 	if status != C.NUMBER_GENERATOR_SUCCESS {
 		return 0, toError(status)
 	}
