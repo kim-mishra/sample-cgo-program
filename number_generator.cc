@@ -8,7 +8,7 @@ extern int number_generator_init(number_generator **ppNG,
         return NUMBER_GENERATOR_INVALID;
     }
 
-    // allocate date struct
+    // allocate number generator struct
     number_generator *ng = (number_generator *)malloc(sizeof(number_generator));
     if (ng == nullptr) {
         return NUMBER_GENERATOR_OUT_OF_MEMORY;
@@ -18,9 +18,12 @@ extern int number_generator_init(number_generator **ppNG,
     NumberGenerator *num_gen;
     try {
         num_gen = new NumberGenerator(min, max);
+    } catch (int err) {
+        free(ng);
+        return err;
     } catch (std::exception& e) {
         free(ng);
-        return NUMBER_GENERATOR_MIN_NOT_LESS_THAN_MAX;
+        return NUMBER_GENERATOR_UNKNOWN_ERROR;
     }
 
     // set opaque pointer to cpp obj
@@ -40,15 +43,19 @@ extern int number_generator_terminate(number_generator **ppNG) {
         return NUMBER_GENERATOR_INVALID;
     }
 
+    NumberGenerator *num_gen =
+            static_cast<NumberGenerator *>((*ppNG)->number_generator_obj);
+
+    delete num_gen;
     free(*ppNG);
     *ppNG = nullptr;
     return NUMBER_GENERATOR_SUCCESS;
 };
 
-extern int get_random_number(number_generator *n, //
+extern int number_generator_get_random_number(number_generator *pNG, //
                              number_generator_response *response // OUT
 ) {
-    if (n == nullptr) {
+    if (pNG == nullptr) {
         return NUMBER_GENERATOR_INVALID;
     }
 
@@ -58,8 +65,10 @@ extern int get_random_number(number_generator *n, //
 
     try {
         NumberGenerator *num_gen =
-            static_cast<NumberGenerator *>(n->number_generator_obj);
+            static_cast<NumberGenerator *>(pNG->number_generator_obj);
         num_gen->GetRandomNumber(response);
+    } catch (int err) {
+        return err;
     } catch (std::exception &e) {
         return NUMBER_GENERATOR_UNKNOWN_ERROR;
     }
@@ -70,7 +79,7 @@ extern int get_random_number(number_generator *n, //
 NumberGenerator::NumberGenerator(int minVal, int maxVal)
 {
     if (minVal >= maxVal) {
-        throw std::runtime_error("min must be less than max");
+        throw NUMBER_GENERATOR_MIN_NOT_LESS_THAN_MAX;
     }
     min = minVal;
     max = maxVal;
@@ -82,4 +91,5 @@ void NumberGenerator::GetRandomNumber(number_generator_response *r)
     srand(time(NULL));
     int range = static_cast<int>(max - min + 1);
     r->num = min + rand() % range;
+
 }

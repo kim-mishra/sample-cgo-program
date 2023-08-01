@@ -36,7 +36,7 @@ extern int number_generator_init(number_generator **ppNG, //OUT
 extern int number_generator_terminate(number_generator **ppNG  // OUT
 );
 
-extern int get_random_number(number_generator *n, //
+extern int number_generator_get_random_number(number_generator *n, //
                              number_generator_response *response // OUT
 );
 
@@ -60,4 +60,4 @@ public:
 #endif
 // END C++ API
 
-#endif // DATE_H
+#endif // NUMBER_GENERATOR_H

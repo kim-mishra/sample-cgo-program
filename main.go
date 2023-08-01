@@ -12,25 +12,21 @@ import "C"
 import (
 	"errors"
 	"fmt"
+	"os"
+	"strconv"
 )
-
-// NumberGenerator holds the c type viam_carto_lib
-type NumberGenerator struct {
-	value *C.number_generator
-}
 
 func getRandomNumber(min int, max int) (int, error) {
 	// initialize pointer to C number_generator
 	var pNumGen *C.number_generator
 	status := C.number_generator_init(&pNumGen, C.int(min), C.int(max))
 	if status != C.NUMBER_GENERATOR_SUCCESS {
-		fmt.Println("error hereb")
 		return 0, toError(status)
 	}
 
 	// initialize outParam
 	resp := C.number_generator_response{}
-	status = C.get_random_number(pNumGen, &resp)
+	status = C.number_generator_get_random_number(pNumGen, &resp)
 	if status != C.NUMBER_GENERATOR_SUCCESS {
 		return 0, toError(status)
 	}
@@ -71,12 +67,29 @@ func toError(status C.int) error {
 }
 
 func main() {
-	num, err := getRandomNumber(0, 10)
+	if len(os.Args) != 3 {
+		fmt.Printf("usage %s min max\n", os.Args[0])
+		os.Exit(1)
+	}
+
+	min, err := strconv.ParseInt(os.Args[1], 10, 8)
+	if err != nil {
+		fmt.Printf("%s must be an integer\n", os.Args[1])
+		os.Exit(1)
+	}
+
+	max, err := strconv.ParseInt(os.Args[2], 10, 8)
+	if err != nil {
+		fmt.Printf("%s must be an integer\n", os.Args[2])
+		os.Exit(1)
+	}
+
+	num, err := getRandomNumber(int(min), int(max))
 
 	if err == nil {
-		fmt.Printf(
-			"the random number generated was: %v\n", num)
+		fmt.Printf("the random number between %d and %d generated was: %d\n", min, max, num)
 	} else {
 		fmt.Print(err)
+		os.Exit(1)
 	}
 }
