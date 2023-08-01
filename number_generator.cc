@@ -19,6 +19,7 @@ extern int number_generator_init(number_generator **ppNG,
     try {
         num_gen = new NumberGenerator(min, max);
     } catch (std::exception& e) {
+        free(ng);
         return NUMBER_GENERATOR_MIN_NOT_LESS_THAN_MAX;
     }
 
