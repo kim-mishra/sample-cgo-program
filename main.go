@@ -2,7 +2,7 @@ package main
 
 /*
   #cgo LDFLAGS: -Lbuild -lnumber_generator -lstdc++
-	#include "src/number_generator.h"
+  #include "src/number_generator.h"
 */
 import "C"
 
