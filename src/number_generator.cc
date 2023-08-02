@@ -29,7 +29,7 @@ extern int number_generator_init(number_generator **ppNG,
     // set opaque pointer to cpp obj
     ng->number_generator_obj = num_gen;
 
-    // point to newly created viam_carto struct
+    // point to newly created number_generator struct
     *ppNG = ng;
     return NUMBER_GENERATOR_SUCCESS;
 };
