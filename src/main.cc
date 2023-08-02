@@ -31,8 +31,21 @@ int main(int argc, char *argv[]) {
     exit(1);
   }
 
-  int min = atoi(argv[1]);
-  int max = atoi(argv[2]);
+  int min = 0;
+  try {
+    min = std::stoi(argv[1]);
+  } catch (std::exception &e) {
+    std::cerr << argv[1] << " must be an integer\n";
+    exit(1);
+  }
+
+  int max = 0;
+  try {
+    max = std::stoi(argv[2]);
+  } catch (std::exception &e) {
+    std::cerr << argv[2] << " must be an integer\n";
+    exit(1);
+  }
 
   number_generator *pNumGen;
   int status = number_generator_init(&pNumGen, min, max);

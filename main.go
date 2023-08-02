@@ -88,9 +88,9 @@ func main() {
 	num, err := getRandomNumber(int(min), int(max))
 
 	if err == nil {
-		fmt.Printf("the random number between %d and %d generated was: %d\n", min, max, num)
+		fmt.Printf("%d\n", num)
 	} else {
-		fmt.Print(err)
+		fmt.Println(err)
 		os.Exit(1)
 	}
 }
