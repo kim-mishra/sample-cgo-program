@@ -42,7 +42,13 @@ int main(int argc, char *argv[]) {
   }
 
   number_generator_response resp;
-  status = get_random_number(pNumGen, &resp);
+  status = number_generator_get_random_number(pNumGen, &resp);
+  if (status != NUMBER_GENERATOR_SUCCESS) {
+    std::cerr << toError(status) << "\n";
+    exit(status);
+  }
+
+  status = number_generator_terminate(&pNumGen);
   if (status != NUMBER_GENERATOR_SUCCESS) {
     std::cerr << toError(status) << "\n";
     exit(status);
