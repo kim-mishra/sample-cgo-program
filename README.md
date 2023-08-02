@@ -3,6 +3,6 @@ This is a sample CGo program to go along with the eng talk given by Nick Sanford
 
 # building and running the code
 ```
-make build
-./numberGenerator
+make
+./bin/main_go min max
 ```
