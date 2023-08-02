@@ -1,7 +1,8 @@
 package main
 
 /*
-	#include "number_generator.h"
+  #cgo LDFLAGS: -Lbuild -lnumber_generator -lstdc++
+	#include "src/number_generator.h"
 */
 import "C"
 
